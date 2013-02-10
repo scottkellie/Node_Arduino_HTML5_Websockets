@@ -3,7 +3,7 @@
 <html>
 <head>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <title>IO socket Test</title>
+    <title>IO socket Test - Scott Kellie</title>
     <meta charset = "UTF-8" />
     <style type = "text/css">
         h1 {
@@ -33,8 +33,8 @@
             border: 5px groove #cccccc;
             -moz-border-radius: 15px;
             -webkit-border-radius: 15px;
-            -moz-box-shadow: 10px 10px 10px #000000;
-            -webkit-box-shadow: 10px 10px 10px #000000;
+            -moz-box-shadow: 20px 20px 20px #000000;
+            -webkit-box-shadow: 20px 20px 20px #000000;
         }
     </style>
     <script>src="/socket.io/socket.io.js"></script>
@@ -46,9 +46,6 @@
 
             var iosocket = io.connect();
 
-// We need to stringify it through JSON before sending it to the server
-            //         ws.send(JSON.stringify(myJsonObject));
-
             iosocket.on('connect', function () {
                 $('#incomingChatMessages').append($('<li>Connected</li>'));
 
@@ -59,9 +56,6 @@
                     $('#incomingChatMessages').append('<li>Disconnected</li>');
                 });
             });
-
-            //$('.button').on('click', function(e) { iosocket.emit('Event', .val + 'button1Click')
-            //	});
 
             $('#outgoingChatMessage').keypress(function(event) {
                 if(event.which == 13) {
@@ -77,19 +71,13 @@
             iosocket = io.connect();
             iosocket.send('ConnectionButtonClicked');
             alert('IOSOCKET CONNECTED');
-            // iosocket = new Socket.io();
-            //note this server does nothing but echo what was passed
-            //use a more elaborate server for more interesting behavior
             output.innerHTML = "connecting..." ;
-            //attach event handlers
-            iosocket.onopen = onOpen;
-            iosocket.onclose = onClose;
-            iosocket.onmessage = onMessage;
-            iosocket.onerror = onError;
         } // end connect
         function sendMessage(){
+		//get message from text box
             txtMessage = document.getElementById("txtMessage");
-            message = txtMessage.value;
+            //make variable of message
+			message = txtMessage.value;
             //pass message to server
             iosocket.send(message);
             alert("<p>MESSAGE SENT: " + message + "</p>");

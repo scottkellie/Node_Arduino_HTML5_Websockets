@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <title>IO socket Test</title>
+    <meta charset = "UTF-8" />
+    <style type = "text/css">
+        h1 {
+            text-align: center;
+        }
+        .error {
+            color: red;
+        }
+        .response {
+            color: blue;
+        }
+        fieldset {
+            width: 80%;
+            margin: auto;
+            text-align: center;
+            -moz-box-shadow: 10px 10px 10px #000000;
+            -webkit-box-shadow: 10px 10px 10px #000000;
+        }
+        #output {
+            font-family: monospace;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 1em;
+            background-color: #eeeeee;
+            padding: 1em;
+            border: 5px groove #cccccc;
+            -moz-border-radius: 15px;
+            -webkit-border-radius: 15px;
+            -moz-box-shadow: 10px 10px 10px #000000;
+            -webkit-box-shadow: 10px 10px 10px #000000;
+        }
+    </style>
+    <script>src="/socket.io/socket.io.js"></script>
+    <script language="javascript" type="text/javascript">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        $(function(){
+
+            var iosocket = io.connect();
+
+// We need to stringify it through JSON before sending it to the server
+            //         ws.send(JSON.stringify(myJsonObject));
+
+            iosocket.on('connect', function () {
+                $('#incomingChatMessages').append($('<li>Connected</li>'));
+
+                iosocket.on('message', function(message) {
+                    $('#incomingChatMessages').append($('<li></li>').text(message));
+                });
+                iosocket.on('disconnect', function() {
+                    $('#incomingChatMessages').append('<li>Disconnected</li>');
+                });
+            });
+
+            //$('.button').on('click', function(e) { iosocket.emit('Event', .val + 'button1Click')
+            //	});
+
+            $('#outgoingChatMessage').keypress(function(event) {
+                if(event.which == 13) {
+                    event.preventDefault();
+                    iosocket.send($('#outgoingChatMessage').val());
+                    $('#incomingChatMessages').append($('<li></li>').text($('#outgoingChatMessage').val()));
+                    $('#outgoingChatMessage').val('');
+                }
+            });
+        });
+        function connect(){
+            //open socket
+            iosocket = io.connect();
+            iosocket.send('ConnectionButtonClicked');
+            alert('IOSOCKET CONNECTED');
+            // iosocket = new Socket.io();
+            //note this server does nothing but echo what was passed
+            //use a more elaborate server for more interesting behavior
+            output.innerHTML = "connecting..." ;
+            //attach event handlers
+            iosocket.onopen = onOpen;
+            iosocket.onclose = onClose;
+            iosocket.onmessage = onMessage;
+            iosocket.onerror = onError;
+        } // end connect
+        function sendMessage(){
+            txtMessage = document.getElementById("txtMessage");
+            message = txtMessage.value;
+            //pass message to server
+            iosocket.send(message);
+            alert("<p>MESSAGE SENT: " + message + "</p>");
+        }
+        function disconnect(){
+            iosocket.close();
+            alert('disconnected');
+        }
+
+    </script>
+</head>
+<body>
+<form action = "">
+    <fieldset>
+        <button type = "button"
+                onclick = "connect()">
+            connect to server
+        </button>
+        <label for = "txtMessage">
+            <input type = "text"
+                   id = "txtMessage"
+                   value = "HTML5" />
+        </label>
+        <button type = "button"
+                onclick = "sendMessage()">
+            send message
+        </button>
+        <button type = "button"
+                onclick = "disconnect()">
+            disconnect
+        </button>
+        <ul>Incoming Chat: <ul id="incomingChatMessages"></ul>
+        <input type="text" id="outgoingChatMessage">
+    </fieldset>
+</form>
+</body>
+</html>

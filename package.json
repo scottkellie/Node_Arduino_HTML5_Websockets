@@ -1,0 +1,20 @@
+{
+  "name": "Scott Kellie",
+  "description": "Arduino,Johnny-five,HTML5,node.js",
+  "version": "1.0",
+  "keywords": [
+    ""
+  ],
+  "maintainers": [
+    {
+      "name": "Scott Kellie",
+      "email": "scottkellie@gmail.com",
+      "web": ""
+    }
+  ],
+  "dependencies": {
+    "https://registry.npmjs.org/johnny-five": "*",
+    "https://registry.npmjs.org/socket.io": "*",
+    "": ""
+  }
+}

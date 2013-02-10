@@ -35,7 +35,7 @@ var server = http.createServer(function (req, res) {
             });
             socket.on('message', function (msg) {
                 var inmsg = msg.toString();
-                var queryData = msg.parse(msg);
+                //var queryData = msg.parse(msg);
                 date = new Date(),
 		dateNow = Date.now(),
         timeValH = date.getHours(),
